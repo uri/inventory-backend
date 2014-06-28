@@ -6,6 +6,10 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'home#index'
 
+  namespace :api, defauts: { format: :json } do
+    resources :categories, only: [:index, :create, :show, :update, :destroy]
+  end
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
