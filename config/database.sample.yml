@@ -1,19 +1,11 @@
-# Sample file for the database configuration.
-# Copy the content to database.yml and enter your settings.
-
 development:
-  adapter: postgresql
-  username: anton
-  password: 123 
-  port: 5432
-  host: 127.0.0.1
-  database: ae_dev
+  database: inventory_dev
+  adapter: sqlite3
+  pool: 5
+  timeout: 5000
 
 test:
-  adapter: postgresql
-  username: anton
-  password: 123 
-  port: 5432
-  host: 127.0.0.1
-  database: ae_test
-  min_messages: WARNING
+  database: inventory_test
+  adapter: sqlite3
+  pool: 5
+  timeout: 5000
