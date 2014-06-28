@@ -17,3 +17,6 @@
 
 # Ignore database config file
 /config/database.yml
+
+# Ignore Mac DS_STORE file
+.DS_STORE
