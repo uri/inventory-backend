@@ -12,11 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require_tree .
-//= angular.min
-//= angular-resource.min
-//= angular-strap.min
-//= angular-strap.tpl.min
-//= angular-animate.min
-//= mainModule
+//= require angular
+//= require main_module
+//= require features/home
