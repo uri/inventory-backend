@@ -8,4 +8,5 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( search.js )
 Rails.application.config.assets.paths << Rails.root.join("lib", "angular")
 Rails.application.config.assets.paths << Rails.root.join("vendor", "components")
+Rails.application.config.assets.paths << Rails.root.join("vendor", "fonts")
 Rails.application.config.assets.precompile += %w( angular/angular-strap.tpl.min.js )
