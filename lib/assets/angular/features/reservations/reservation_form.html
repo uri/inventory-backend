@@ -1,0 +1,11 @@
+<div class="reservation">
+  <form name="timepickerForm" class="form-inline" role="form">
+     <div class="form-group" ng-class="{'has-error': timepickerForm.time.$invalid}">
+    <label class="control-label"><i class="fa fa-clock-o"></i> Time <small>(as date)</small></label>
+    <input type="text" class="form-control" size="8" ng-model="time" name="time" bs-timepicker>
+  </div>
+
+    <button class="btn btn-success">Reserve! </button>
+
+  </form>
+</div>
