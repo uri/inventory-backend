@@ -1,4 +1,4 @@
 class Item < ActiveRecord::Base
   has_many :reservations
-  has_many :categories
+  belongs_to :category
 end

@@ -8,6 +8,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
 gem 'rabl'
 gem 'devise'
+gem 'rqrcode_png'
 
 group :production do
   gem 'pg'

@@ -1,3 +1,3 @@
-object @category
+collection @categories
 
 attributes :id, :name, :description

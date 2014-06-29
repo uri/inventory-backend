@@ -17,3 +17,4 @@
 //= require main_module
 //= require features/home
 //= require features/reservations
+//= require features/categories
