@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     resources :categories, only: [:index, :create, :show, :update, :destroy]
     resources :items, only: [:index, :create, :show, :update, :destroy]
+    resources :reservations, only: [:index, :create]
   end
 
   # Example of regular route:

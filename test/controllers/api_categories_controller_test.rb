@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Api::CategoriesControllerTest < ActionController::TestCase
-  
+
   test 'show all categories' do
     Category.create(name: 'Headphones')
     get :index, format: :json
@@ -15,4 +15,5 @@ class Api::CategoriesControllerTest < ActionController::TestCase
       assert_response :success
     end
   end
+  
 end
