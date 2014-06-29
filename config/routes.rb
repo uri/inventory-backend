@@ -6,7 +6,11 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     resources :categories, only: [:index, :create, :show, :update, :destroy]
-    resources :items, only: [:index, :create, :show, :update, :destroy]
+    resources :items, only: [:index, :create, :show, :update, :destroy] do
+      member do
+        post 'checkout'
+      end
+    end
     resources :reservations, only: [:index, :create]
   end
 
