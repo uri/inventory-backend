@@ -1,1 +1,18 @@
-<reservation-form></reservation-form>
+<div class="row">
+  <div class="col-md-6">
+    <div class="reservations" ng-controller="ReservationsCtrl">
+
+<!-- Button to trigger a default aside with a scope as an object {title:'', content:'', etc.} -->
+      <button type="button" class="btn btn-lg btn-primary" html="true" bs-aside="modal">Click to toggle aside
+        <br>
+        <small>(using an object)</small>
+      </button>
+
+      <button class="btn" ng-click="editReservation({name: 'myres'})">
+        Edit reservation
+      </button>
+
+    </div>
+
+  </div>
+</div>
