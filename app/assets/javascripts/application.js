@@ -16,3 +16,5 @@
 //= require angular
 //= require main_module
 //= require features/home
+
+//= require features/categories
