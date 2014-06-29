@@ -1,13 +1,14 @@
 source 'https://rubygems.org'
 
 
-gem 'rails', '4.1.2'
+gem 'rails', '3.2.18'
 
-gem 'sass-rails', '~> 4.0.3'
+gem 'sass-rails' 
 gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
 gem 'rabl'
 gem 'devise'
+gem 'strong_parameters'
 
 group :production do
   gem 'pg'
