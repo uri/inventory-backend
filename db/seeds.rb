@@ -32,3 +32,8 @@ Item.delete_all
 items.each do |args|
   Item.create(args.merge({category_id:audio_id}))
 end
+
+
+Reservation.destroy_all
+
+Reservation.create(beginning: Time.now, ending: 2.days.from_now, in_use: true)

@@ -11,5 +11,5 @@ Rails.application.routes.draw do
   end
 
   resources :categories, only: :index
-
+  resources :reservations, only: :index
 end

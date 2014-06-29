@@ -13,8 +13,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+//= require moment.min
 //= require angular
 //= require main_module
+//= require filters
 //= require features/home
 //= require features/reservations
 //= require features/categories
