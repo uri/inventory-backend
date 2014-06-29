@@ -30,5 +30,5 @@ items = [
 Item.delete_all
 
 items.each do |args|
-  Item.create(args)
+  Item.create(args.merge({category_id:audio_id}))
 end
