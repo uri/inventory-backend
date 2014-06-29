@@ -10,4 +10,6 @@ Rails.application.routes.draw do
     resources :reservations, only: [:index, :create]
   end
 
+  resources :categories, only: :index
+
 end
