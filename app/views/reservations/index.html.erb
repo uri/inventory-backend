@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="reservations" ng-controller="ReservationsCtrl" ng-init="itemId = <%= @item.try(:id) %>">
+
+      <div class="reservation" ng-repeat="reservation in reservations">
+        <h2>{{$index}}: something...</h2>
+
+        <h4>Starting</h4>
+        <p>
+          {{reservation.beginning | dateFormat}}
+        </p>
+
+        <h4>Ending {{reservation.ending | fromNowDate}}</h4>
+        <p>
+          {{reservation.ending | dateFormat}}
+        </p>
+
+        <button class="btn" ng-click="editReservation(reservation)">
+          Edit reservation
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+</div>

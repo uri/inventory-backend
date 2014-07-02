@@ -2,7 +2,7 @@ class Api::ReservationsController < ApplicationController
   respond_to :json
 
   def index
-    @reservations = Reservations.all
+    @reservations = Reservation.all
   end
 
   def create
