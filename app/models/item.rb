@@ -2,6 +2,10 @@ class Item < ActiveRecord::Base
   has_many :reservations
   belongs_to :category
 
+  # !!!
+  # Make sure that a user can pick up the item a bit
+  # before if it's not in use. E.g. let time
+  # DELTA be 10.minutes
   def current_reservation
     time_now = Time.now
     self.reservations
@@ -10,7 +14,7 @@ class Item < ActiveRecord::Base
         .first
   end
 
-  def checkout_by(user)
+  def checkout_with(user)
     reservation = current_reservation
     if reservation.nil?
       errors.add :base, 'You must reserve the item before the checkout.'

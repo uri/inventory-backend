@@ -38,7 +38,7 @@ class Api::ItemsController < ApplicationController
 
   def checkout
     @item = Item.find_by_url_id(params[:url_id])
-    @item.checkout_by(current_user)
+    @item.checkout_with(current_user)
     if @item.errors.any?
       respond_with @item
     else
