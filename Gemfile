@@ -12,7 +12,6 @@ gem 'devise'
 group :production do
   gem 'pg'
   gem 'rails_12factor'
-
 end
 
 group :development, :test do
@@ -21,4 +20,7 @@ group :development, :test do
   gem 'pry'
   gem 'sqlite3'
   gem 'zeus'
+  gem 'factory_girl_rails', '~> 4.4.1'
+  gem 'shoulda', '~> 3.5.0'
 end
+

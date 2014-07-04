@@ -17,7 +17,7 @@ private
 
   def deactivate_previous_reservation
     active_reservation = item.reservations.
-      where.not(rchecked_out_at: nil).
+      where.not(checked_out_at: nil).
       where(checked_in_at: nil).first
     if active_reservation
       active_reservation.update_attributes(checked_in_at: Time.now)
