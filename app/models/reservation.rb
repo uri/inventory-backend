@@ -5,6 +5,10 @@ class Reservation < ActiveRecord::Base
   validate :beginning_less_than_ending
   validate :block_off_reserved_time_slot
 
+  def activate
+    update_attributes(checked_out_at: Time.now)
+  end
+
 private
 
   # !!!
