@@ -5,11 +5,24 @@ class Reservation < ActiveRecord::Base
   validate :beginning_less_than_ending
   validate :block_off_reserved_time_slot
 
+  before_save :deactivate_previous_reservation
+
   def activate
-    update_attributes(checked_out_at: Time.now)
+    self.checked_out_at = Time.now
+    self.item.in_use = true
+    save
   end
 
 private
+
+  def deactivate_previous_reservation
+    active_reservation = item.reservations.
+      where.not(rchecked_out_at: nil).
+      where(checked_in_at: nil).first
+    if active_reservation
+      active_reservation.update_attributes(checked_in_at: Time.now)
+    end
+  end
 
   # !!!
   def beginning_less_than_ending
@@ -17,7 +30,8 @@ private
 
 
   # !!!
-  # refactor in several small methods
+  # use this shortcut to simplify code:
+  # http://makandracards.com/makandra/984-test-if-two-date-ranges-overlap-in-ruby-or-rails
   def block_off_reserved_time_slot
     items_reservations = Reservation.where(item_id: self.item_id)
 
