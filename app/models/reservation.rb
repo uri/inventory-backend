@@ -11,6 +11,9 @@ private
   def beginning_less_than_ending
   end
 
+
+  # !!!
+  # refactor in several small methods
   def block_off_reserved_time_slot
     items_reservations = Reservation.where(item_id: self.item_id)
 

@@ -20,3 +20,7 @@
 
 # Ignore Mac DS_STORE file
 .DS_STORE
+
+# Ignore Ruby and gemset user settings
+.ruby-version
+.ruby-gemset
