@@ -1,6 +1,7 @@
 class Item < ActiveRecord::Base
   has_many :reservations, dependent: :destroy
   belongs_to :category
+  has_many :items
 
   # !!!
   # Make sure that a user can pick up the item a bit

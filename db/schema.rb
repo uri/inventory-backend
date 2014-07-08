@@ -11,11 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140704042247) do
+ActiveRecord::Schema.define(version: 20140708024743) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
     t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "checkouts", force: true do |t|
+    t.integer  "item_id"
+    t.integer  "reservation_id"
+    t.datetime "checked_out_at"
+    t.datetime "checked_in_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -37,8 +46,6 @@ ActiveRecord::Schema.define(version: 20140704042247) do
     t.datetime "ending"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "checked_in_at"
-    t.datetime "checked_out_at"
   end
 
   create_table "users", force: true do |t|

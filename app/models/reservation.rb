@@ -1,6 +1,7 @@
 class Reservation < ActiveRecord::Base
   belongs_to :user
   belongs_to :item
+  has_one :checkout
 
   validate :beginning_less_than_ending
   validate :block_off_reserved_time_slot
