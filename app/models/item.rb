@@ -21,11 +21,15 @@ class Item < ActiveRecord::Base
         .order('beginning ASC').first
   end
 
+  # !!!
+  # This needs to be refactored.
   def checkout_with(user)
     current_reservation = self.current_reservation
     if current_reservation
-      if current_reservation.user_id == user.id
-        current_reservation.activate
+      if current_reservation.user_id == user.id && !item.in_use
+        self.checkout.create
+      elsif current_reservation.user_id == user.id && item.in_use
+        errors.add :base, "You have already checked out this item."
       else
         errors.add :base, "Another member has reserved the item until #{current_reservation.ending}. You may want to try reserving the item after than."
       end
