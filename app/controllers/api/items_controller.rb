@@ -36,16 +36,6 @@ class Api::ItemsController < ApplicationController
     end
   end
 
-  def checkout
-    @item = Item.find_by_url_id(params[:url_id])
-    @item.checkout_with(current_user)
-    if @item.errors.empty?
-      respond_with @item
-    else
-      respond_with @item, status: :not_acceptable
-    end
-  end
-
 private
 
   def item_params

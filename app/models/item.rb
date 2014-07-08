@@ -1,7 +1,6 @@
 class Item < ActiveRecord::Base
   has_many :reservations, dependent: :destroy
   belongs_to :category
-  has_many :items
 
   # !!!
   # Make sure that a user can pick up the item a bit
@@ -22,7 +21,7 @@ class Item < ActiveRecord::Base
   end
 
   # !!!
-  # This needs to be refactored.
+  # This method isn't called from anywhere
   def checkout_with(user)
     current_reservation = self.current_reservation
     if current_reservation
