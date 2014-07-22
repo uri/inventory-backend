@@ -3,9 +3,15 @@ class Reservation < ActiveRecord::Base
   belongs_to :item
   has_one :checkout
 
-  validate :beginning_less_than_ending
-  validate :block_off_reserved_time_slot
   validates_presence_of :item_id, :user_id, :beginning, :ending
+  validate :beginning_less_than_ending
+  validate :does_not_overlap
+
+  scope :overlaps, ->(item_id, beginning, ending) do
+    where(item_id: item_id).
+    where('ending > ?', beginning).
+    where('? > beginning', ending)
+  end
 
 private
 
@@ -15,39 +21,10 @@ private
     end
   end
 
-
-  # !!!
-  # use this shortcut to simplify code:
-  # http://makandracards.com/makandra/984-test-if-two-date-ranges-overlap-in-ruby-or-rails
-  def block_off_reserved_time_slot
-    items_reservations = Reservation.where(item_id: self.item_id)
-
-    overlaps_on_the_left = items_reservations.
-      where('beginning <= ? AND ending > ?',
-        self.beginning, self.beginning).
-      any?
-
-    overlaps_on_the_right = items_reservations.
-      where('beginning < ? AND ending >= ?',
-        self.ending, self.ending).
-      any?
-
-    completely_covers_existing = items_reservations.
-      where('? <= beginning AND ending <= ?',
-        self.beginning, self.ending).
-      any?
-
-    is_inside_existing = items_reservations.
-      where('beginning <= ? AND ? <= ending',
-        self.beginning, self.ending).
-      any?
-
-    if  overlaps_on_the_left ||
-        overlaps_on_the_right ||
-        completely_covers_existing ||
-        is_inside_existing
-      errors.add :base,
-        'The time interval is in conflict with someone else\'s reservation'
+  def does_not_overlap
+    if Reservation.overlaps(item_id, beginning, ending).any?
+      errors.add :base, 'The item is already reserved for a part of ' +
+                        'this time period'
     end
   end
 end
