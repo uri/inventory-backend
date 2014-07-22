@@ -19,6 +19,7 @@ group :development, :test do
   gem 'sqlite3'
   gem 'factory_girl_rails', '~> 4.4.1'
   gem 'shoulda', '~> 3.5.0'
+  gem 'mocha', '~> 1.1.0'
   
   # # this should be outside the app as per
   # # zeus docs

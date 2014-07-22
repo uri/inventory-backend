@@ -1,8 +1,8 @@
 FactoryGirl.define do
 
   factory :item do
-    name "Scissors"
-    url_id "scissors"
+    name   'Laser cutter'
+    url_id 'laser_cuter'
     in_use false
   end
 
