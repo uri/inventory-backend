@@ -5,11 +5,14 @@ class Reservation < ActiveRecord::Base
 
   validate :beginning_less_than_ending
   validate :block_off_reserved_time_slot
+  validates_presence_of :item_id, :user_id, :beginning, :ending
 
 private
 
-  # !!!
   def beginning_less_than_ending
+    if beginning >= ending
+      errors.add :base, 'Invalid beginning and ending dates.'
+    end
   end
 
 

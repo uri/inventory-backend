@@ -79,4 +79,16 @@ class ReservationsTest < ActiveSupport::TestCase
     end
     assert reservation.errors.any?
   end
+
+
+  context 'model validations' do
+
+    should 'make sure beginning is less than ending' do
+      reservation = FactoryGirl.build(
+        :reservation,
+        beginning: 2.days.from_now,
+        ending: 1.day.from_now)
+      assert !reservation.valid?
+    end
+  end
 end
