@@ -2,92 +2,95 @@ require 'test_helper'
 
 class ReservationsTest < ActiveSupport::TestCase
 
-  def setup
-    @member = User.create(
-      email: 'bob@example.com',
-      password: 'secret' )
-    @member_two = User.create(
-      email: 'mike@example.com',
-      password: 'secret' )
+  context 'item can be reserved only once for a period of time' do
+    setup do
+      @member_1 = FactoryGirl.create(:user)
+      @member_2 = FactoryGirl.create(:user)
+      @item = FactoryGirl.create(:item)
+      @reservation = FactoryGirl.create(
+        :reservation,
+        user: @member_1,
+        beginning: 2.hours.from_now,
+        ending:    5.hours.from_now,
+        item:   @item )
+    end
     
-    @item = Item.create(name: 'Laser Cutter')
-
-    @reservation = @member.reservations.new(
-      beginning: 2.hours.from_now,
-      ending:    5.hours.from_now,
-      item_id:   @item.id )
-    @reservation.save
-  end
-  
-  test 'save valid reservations' do
-    assert_difference 'Reservation.count', 1 do
-      reservation = @member_two.reservations.new(
-        beginning: @reservation.ending,
-        ending:    @reservation.ending + 1.hour,
-        item_id:   @item.id )
-      reservation.save
+    should 'save valid reservations' do
+      assert_difference 'Reservation.count', 1 do
+        FactoryGirl.create(
+          :reservation,
+          user: @member_2,
+          beginning: @reservation.ending,
+          ending:    @reservation.ending + 1.hour,
+          item:   @item )
+      end
+      assert_difference 'Reservation.count', 1 do
+        FactoryGirl.create(
+          :reservation,
+          user: @member_2,
+          beginning: @reservation.beginning - 1.hour,
+          ending:    @reservation.beginning,
+          item:   @item )
+      end
     end
-    assert_difference 'Reservation.count', 1 do
-      reservation = @member_two.reservations.new(
+
+    should 'invalidate a reservation overlapping with ' +
+           'an existing one on the left' do
+      reservation = FactoryGirl.build(
+        :reservation,
+        user: @member_2,
         beginning: @reservation.beginning - 1.hour,
-        ending:    @reservation.beginning,
-        item_id:   @item.id )
-      reservation.save
+        ending:    @reservation.beginning + 1.hour,
+        item:   @item )
+      assert !reservation.valid?
+    end
+
+    should 'invalidate a reservation overlapping with an ' +
+           'existing one on the right' do
+      reservation = FactoryGirl.build(
+        :reservation,
+        user: @member_2,
+        beginning: @reservation.ending - 1.hour,
+        ending:    @reservation.ending + 1.hour,
+        item:   @item )
+      assert !reservation.valid?
+    end
+
+    should 'invalidate a reservation falling within an existing one' do
+      reservation = FactoryGirl.build(
+        :reservation,
+        user: @member_2,
+        beginning: @reservation.beginning + 1.hour,
+        ending:    @reservation.ending - 1.hour,
+        item:   @item )
+      assert !reservation.valid?
+    end
+
+    should 'invalidate a reservation completely covering an existing one' do
+      reservation = FactoryGirl.build(
+        :reservation,
+        user: @member_2,
+        beginning: @reservation.beginning - 1.hour,
+        ending:    @reservation.ending + 1.hour,
+        item:   @item )
+      assert !reservation.valid?
     end
   end
 
-  test 'fail to save a reservation overlapping with an existing one on the left' do
-    reservation = @member_two.reservations.new(
-      beginning: @reservation.beginning - 1.hour,
-      ending:    @reservation.beginning + 1.hour,
-      item_id:   @item.id )
-    assert_no_difference 'Reservation.count' do
-      reservation.save
+
+  context 'simple model validations' do
+    setup do
+      @member = FactoryGirl.create(:user)
+      @item   = FactoryGirl.create(:item)
     end
-    assert reservation.errors.any?
-  end
-
-  test 'fail to save a reservation overlapping with an existing one on the right' do
-    reservation = @member_two.reservations.new(
-      beginning: @reservation.ending - 1.hour,
-      ending:    @reservation.ending + 1.hour,
-      item_id:   @item.id )
-    assert_no_difference 'Reservation.count' do
-      reservation.save
-    end
-    assert reservation.errors.any?
-  end
-
-  test 'fail to save a reservation falling within an existing one' do
-    reservation = @member_two.reservations.new(
-      beginning: @reservation.beginning + 1.hour,
-      ending:    @reservation.ending    - 1.hour,
-      item_id:   @item.id )
-    assert_no_difference 'Reservation.count' do
-      reservation.save
-    end
-    assert reservation.errors.any?
-  end
-
-  test 'fail to save a reservation completely covering an existing one' do
-    reservation = @member_two.reservations.new(
-      beginning: @reservation.beginning - 1.hour,
-      ending:    @reservation.ending    + 1.hour,
-      item_id:   @item.id )
-    assert_no_difference 'Reservation.count' do
-      reservation.save
-    end
-    assert reservation.errors.any?
-  end
-
-
-  context 'model validations' do
 
     should 'make sure beginning is less than ending' do
       reservation = FactoryGirl.build(
         :reservation,
         beginning: 2.days.from_now,
-        ending: 1.day.from_now)
+        ending:    1.day.from_now,
+        user:      @member,
+        item:      @item)
       assert !reservation.valid?
     end
   end
