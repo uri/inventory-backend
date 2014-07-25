@@ -5,7 +5,7 @@ class Api::CheckoutsController < ApplicationController
   # params: { reservation_id: reservation_id }
   def create
     reservation = Reservation.find(params[:reservation_id])
-    @checkout = Checkout.new(actual_user: current_user)
+    @checkout = Checkout.new(member: current_user)
     @checkout.reservation = reservation
     if @checkout.save
       respond_with @checkout

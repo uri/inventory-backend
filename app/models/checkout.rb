@@ -8,6 +8,8 @@ class Checkout < ActiveRecord::Base
   validates_presence_of :reservation_id, :checked_out_at
   validate :item_was_properly_reserved, if: Proc.new{|c| c.reservation}
 
+private
+
   def item_was_properly_reserved
     item = reservation.item
     current_reservation = item.current_reservation
@@ -29,8 +31,6 @@ class Checkout < ActiveRecord::Base
       end
     end
   end
-
-private
 
   def set_checkout_time
     self.checked_out_at = Time.now
