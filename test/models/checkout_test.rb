@@ -4,8 +4,11 @@ class CheckoutTest < ActiveSupport::TestCase
 
   should 'initialize checkouts checked_out_at timestamp' do
     checkout = FactoryGirl.build(:checkout)
+    checkout.member = FactoryGirl.build(:user)
     checkout.stubs(:item_was_properly_reserved).returns(nil)
-    assert_difference 'Checkout.count', 1 do checkout.save end
+    assert_difference 'Checkout.count', 1 do
+      checkout.save
+    end
     assert_not_nil checkout.checked_out_at
   end
 

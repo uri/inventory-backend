@@ -5,8 +5,8 @@ class Checkout < ActiveRecord::Base
 
   before_validation :set_checkout_time
 
-  validates_presence_of :reservation_id, :checked_out_at
-  validate :item_was_properly_reserved, if: Proc.new{|c| c.reservation}
+  validates_presence_of :reservation_id, :checked_out_at, :member
+  validate :item_was_properly_reserved, if: Proc.new{|c| c.reservation && c.member}
 
 private
 
@@ -17,17 +17,14 @@ private
       if current_reservation.user == member && item.in_use
         errors.add :base, "You have already checked out this item."
       elsif current_reservation.user != member
-        errors.add :base, "Another member has this item reserved until #{current_reservation.ending}. You may want to reserving the item after than."
+        errors.add :base, "Another member has this item reserved until #{current_reservation.ending}."
       end
     else
-      errors.add :base, 'You need to reserve an item before checking it out at this time.'
-      next_reservation = reservation.item.next_reservation
-      if next_reservation.nil?
-        errors.add :base, 'This item has no future reservations.'
-      elsif next_reservation.user == member
-        errors.add :base, "You can check out this item at #{next_reservation.beginning}."
+      members_next_reservation = item.next_reservation_for(member)
+      if members_next_reservation
+        errors.add :base, "You can check this item out at #{members_next_reservation.beginning} or try to reserve it for an earlier time."
       else
-        errors.add :base, "This item is booked for another member from #{next_reservation.beginning} to #{next_reservation.ending}. You may want to try to reserve it before or after than."
+        errors.add :base, "You need to reserve the item before cheking it out."
       end
     end
   end

@@ -14,8 +14,9 @@ class Item < ActiveRecord::Base
         .first
   end
 
-  def next_reservation
+  def next_reservation_for(member)
     self.reservations
+        .where(user_id: member.id)
         .where('beginning >= ?', Time.now)
         .order('beginning ASC').first
   end
