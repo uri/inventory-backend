@@ -1,9 +1,11 @@
 class Checkout < ActiveRecord::Base
   belongs_to :reservation
+  has_one :item, through: :reservation
 
   attr_accessor :member
 
   before_validation :set_checkout_time
+  after_save :mark_item_as_in_use
 
   validates_presence_of :reservation_id, :checked_out_at, :member
   validate :item_was_properly_reserved, if: Proc.new{|c| c.reservation && c.member}
@@ -11,7 +13,6 @@ class Checkout < ActiveRecord::Base
 private
 
   def item_was_properly_reserved
-    item = reservation.item
     current_reservation = item.current_reservation
     if current_reservation
       if current_reservation.user == member && item.in_use
@@ -31,5 +32,9 @@ private
 
   def set_checkout_time
     self.checked_out_at = Time.now
+  end
+
+  def mark_item_as_in_use
+    item.update_attributes(in_use: true)
   end
 end
