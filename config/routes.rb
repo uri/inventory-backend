@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :categories, only: [:index, :create, :show, :update, :destroy]
     resources :items, only: [:index, :create, :show, :update, :destroy]
     resources :reservations, only: [:index, :create]
+    resources :checkouts, only: [:create, :update]
   end
 
   resources :categories, only: :index
