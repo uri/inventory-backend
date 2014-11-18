@@ -20,6 +20,8 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.4)
       rails-html-sanitizer (~> 1.0, >= 1.0.1)
+    active_model_serializers (0.9.0)
+      activemodel (>= 3.2)
     activejob (4.2.0.beta4)
       activesupport (= 4.2.0.beta4)
       globalid (>= 0.3.0)
@@ -258,6 +260,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers (~> 0.9.0)
   better_errors (~> 2.0)
   factory_girl_rails (~> 4.5)
   guard (~> 2.6)
