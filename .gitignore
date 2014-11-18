@@ -24,3 +24,5 @@
 # Ignore Ruby and gemset user settings
 .ruby-version
 .ruby-gemset
+Guardfile
+
