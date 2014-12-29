@@ -25,4 +25,5 @@
 .ruby-version
 .ruby-gemset
 Guardfile
+inventory_*
 
